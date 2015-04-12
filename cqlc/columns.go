@@ -443,6 +443,42 @@ type LastClusteredBytesColumn interface {
 
 
 
+type InetColumn interface {
+	Column
+	To(value *net.IP) ColumnBinding
+}
+
+type EqualityInetColumn interface {
+	InetColumn
+	Eq(value net.IP) Condition
+}
+
+type PartitionedInetColumn interface {
+	PartitionedColumn
+	EqualityInetColumn
+}
+
+type LastPartitionedInetColumn interface {
+	PartitionedInetColumn
+	In(value ...net.IP) Condition
+}
+
+type ClusteredInetColumn interface {
+	ClusteredColumn
+	EqualityInetColumn
+	Gt(value net.IP) Condition
+	Lt(value net.IP) Condition
+	Ge(value net.IP) Condition
+	Le(value net.IP) Condition
+}
+
+type LastClusteredInetColumn interface {
+	ClusteredInetColumn
+	In(value ...net.IP) Condition
+}
+
+
+
 
 type StringSliceColumn interface {
 	ListColumn
@@ -502,6 +538,11 @@ type VarintSliceColumn interface {
 type BytesSliceColumn interface {
 	ListColumn
 	To(value *[][]byte) ColumnBinding
+}
+
+type InetSliceColumn interface {
+	ListColumn
+	To(value *[]net.IP) ColumnBinding
 }
 
 
@@ -571,6 +612,11 @@ type StringBytesMapColumn interface {
 }
 
 
+type StringInetMapColumn interface {
+	Column
+}
+
+
 
 type Int32StringMapColumn interface {
 	Column
@@ -628,6 +674,11 @@ type Int32VarintMapColumn interface {
 
 
 type Int32BytesMapColumn interface {
+	Column
+}
+
+
+type Int32InetMapColumn interface {
 	Column
 }
 
@@ -693,6 +744,11 @@ type Int64BytesMapColumn interface {
 }
 
 
+type Int64InetMapColumn interface {
+	Column
+}
+
+
 
 type Float32StringMapColumn interface {
 	Column
@@ -750,6 +806,11 @@ type Float32VarintMapColumn interface {
 
 
 type Float32BytesMapColumn interface {
+	Column
+}
+
+
+type Float32InetMapColumn interface {
 	Column
 }
 
@@ -815,6 +876,11 @@ type Float64BytesMapColumn interface {
 }
 
 
+type Float64InetMapColumn interface {
+	Column
+}
+
+
 
 type TimestampStringMapColumn interface {
 	Column
@@ -872,6 +938,11 @@ type TimestampVarintMapColumn interface {
 
 
 type TimestampBytesMapColumn interface {
+	Column
+}
+
+
+type TimestampInetMapColumn interface {
 	Column
 }
 
@@ -937,6 +1008,11 @@ type TimeUUIDBytesMapColumn interface {
 }
 
 
+type TimeUUIDInetMapColumn interface {
+	Column
+}
+
+
 
 type UUIDStringMapColumn interface {
 	Column
@@ -994,6 +1070,11 @@ type UUIDVarintMapColumn interface {
 
 
 type UUIDBytesMapColumn interface {
+	Column
+}
+
+
+type UUIDInetMapColumn interface {
 	Column
 }
 
@@ -1059,6 +1140,11 @@ type BooleanBytesMapColumn interface {
 }
 
 
+type BooleanInetMapColumn interface {
+	Column
+}
+
+
 
 type DecimalStringMapColumn interface {
 	Column
@@ -1116,6 +1202,11 @@ type DecimalVarintMapColumn interface {
 
 
 type DecimalBytesMapColumn interface {
+	Column
+}
+
+
+type DecimalInetMapColumn interface {
 	Column
 }
 
@@ -1181,6 +1272,9 @@ type VarintBytesMapColumn interface {
 }
 
 
+type VarintInetMapColumn interface {
+	Column
+}
 
 
 
@@ -1192,6 +1286,75 @@ type VarintBytesMapColumn interface {
 
 
 
+
+
+
+
+
+
+type InetStringMapColumn interface {
+	Column
+}
+
+
+type InetInt32MapColumn interface {
+	Column
+}
+
+
+type InetInt64MapColumn interface {
+	Column
+}
+
+
+type InetFloat32MapColumn interface {
+	Column
+}
+
+
+type InetFloat64MapColumn interface {
+	Column
+}
+
+
+type InetTimestampMapColumn interface {
+	Column
+}
+
+
+type InetTimeUUIDMapColumn interface {
+	Column
+}
+
+
+type InetUUIDMapColumn interface {
+	Column
+}
+
+
+type InetBooleanMapColumn interface {
+	Column
+}
+
+
+type InetDecimalMapColumn interface {
+	Column
+}
+
+
+type InetVarintMapColumn interface {
+	Column
+}
+
+
+type InetBytesMapColumn interface {
+	Column
+}
+
+
+type InetInetMapColumn interface {
+	Column
+}
 
 
 type SetValueStep interface {
@@ -1224,6 +1387,8 @@ type SetValueStep interface {
 	SetVarint(col VarintColumn, value *big.Int) SetValueStep
 	
 	SetBytes(col BytesColumn, value []byte) SetValueStep
+	
+	SetInet(col InetColumn, value net.IP) SetValueStep
 	
 
 	
@@ -1265,6 +1430,9 @@ type SetValueStep interface {
 	SetStringBytesMap(col StringBytesMapColumn, value map[string][]byte) SetValueStep
 	
 	
+	SetStringInetMap(col StringInetMapColumn, value map[string]net.IP) SetValueStep
+	
+	
 	
 	SetInt32StringMap(col Int32StringMapColumn, value map[int32]string) SetValueStep
 	
@@ -1300,6 +1468,9 @@ type SetValueStep interface {
 	
 	
 	SetInt32BytesMap(col Int32BytesMapColumn, value map[int32][]byte) SetValueStep
+	
+	
+	SetInt32InetMap(col Int32InetMapColumn, value map[int32]net.IP) SetValueStep
 	
 	
 	
@@ -1339,6 +1510,9 @@ type SetValueStep interface {
 	SetInt64BytesMap(col Int64BytesMapColumn, value map[int64][]byte) SetValueStep
 	
 	
+	SetInt64InetMap(col Int64InetMapColumn, value map[int64]net.IP) SetValueStep
+	
+	
 	
 	SetFloat32StringMap(col Float32StringMapColumn, value map[float32]string) SetValueStep
 	
@@ -1374,6 +1548,9 @@ type SetValueStep interface {
 	
 	
 	SetFloat32BytesMap(col Float32BytesMapColumn, value map[float32][]byte) SetValueStep
+	
+	
+	SetFloat32InetMap(col Float32InetMapColumn, value map[float32]net.IP) SetValueStep
 	
 	
 	
@@ -1413,6 +1590,9 @@ type SetValueStep interface {
 	SetFloat64BytesMap(col Float64BytesMapColumn, value map[float64][]byte) SetValueStep
 	
 	
+	SetFloat64InetMap(col Float64InetMapColumn, value map[float64]net.IP) SetValueStep
+	
+	
 	
 	SetTimestampStringMap(col TimestampStringMapColumn, value map[time.Time]string) SetValueStep
 	
@@ -1448,6 +1628,9 @@ type SetValueStep interface {
 	
 	
 	SetTimestampBytesMap(col TimestampBytesMapColumn, value map[time.Time][]byte) SetValueStep
+	
+	
+	SetTimestampInetMap(col TimestampInetMapColumn, value map[time.Time]net.IP) SetValueStep
 	
 	
 	
@@ -1487,6 +1670,9 @@ type SetValueStep interface {
 	SetTimeUUIDBytesMap(col TimeUUIDBytesMapColumn, value map[gocql.UUID][]byte) SetValueStep
 	
 	
+	SetTimeUUIDInetMap(col TimeUUIDInetMapColumn, value map[gocql.UUID]net.IP) SetValueStep
+	
+	
 	
 	SetUUIDStringMap(col UUIDStringMapColumn, value map[gocql.UUID]string) SetValueStep
 	
@@ -1522,6 +1708,9 @@ type SetValueStep interface {
 	
 	
 	SetUUIDBytesMap(col UUIDBytesMapColumn, value map[gocql.UUID][]byte) SetValueStep
+	
+	
+	SetUUIDInetMap(col UUIDInetMapColumn, value map[gocql.UUID]net.IP) SetValueStep
 	
 	
 	
@@ -1561,6 +1750,9 @@ type SetValueStep interface {
 	SetBooleanBytesMap(col BooleanBytesMapColumn, value map[bool][]byte) SetValueStep
 	
 	
+	SetBooleanInetMap(col BooleanInetMapColumn, value map[bool]net.IP) SetValueStep
+	
+	
 	
 	SetDecimalStringMap(col DecimalStringMapColumn, value map[*inf.Dec]string) SetValueStep
 	
@@ -1596,6 +1788,9 @@ type SetValueStep interface {
 	
 	
 	SetDecimalBytesMap(col DecimalBytesMapColumn, value map[*inf.Dec][]byte) SetValueStep
+	
+	
+	SetDecimalInetMap(col DecimalInetMapColumn, value map[*inf.Dec]net.IP) SetValueStep
 	
 	
 	
@@ -1635,6 +1830,7 @@ type SetValueStep interface {
 	SetVarintBytesMap(col VarintBytesMapColumn, value map[*big.Int][]byte) SetValueStep
 	
 	
+	SetVarintInetMap(col VarintInetMapColumn, value map[*big.Int]net.IP) SetValueStep
 	
 	
 	
@@ -1646,6 +1842,49 @@ type SetValueStep interface {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	SetInetStringMap(col InetStringMapColumn, value map[net.IP]string) SetValueStep
+	
+	
+	SetInetInt32Map(col InetInt32MapColumn, value map[net.IP]int32) SetValueStep
+	
+	
+	SetInetInt64Map(col InetInt64MapColumn, value map[net.IP]int64) SetValueStep
+	
+	
+	SetInetFloat32Map(col InetFloat32MapColumn, value map[net.IP]float32) SetValueStep
+	
+	
+	SetInetFloat64Map(col InetFloat64MapColumn, value map[net.IP]float64) SetValueStep
+	
+	
+	SetInetTimestampMap(col InetTimestampMapColumn, value map[net.IP]time.Time) SetValueStep
+	
+	
+	SetInetTimeUUIDMap(col InetTimeUUIDMapColumn, value map[net.IP]gocql.UUID) SetValueStep
+	
+	
+	SetInetUUIDMap(col InetUUIDMapColumn, value map[net.IP]gocql.UUID) SetValueStep
+	
+	
+	SetInetBooleanMap(col InetBooleanMapColumn, value map[net.IP]bool) SetValueStep
+	
+	
+	SetInetDecimalMap(col InetDecimalMapColumn, value map[net.IP]*inf.Dec) SetValueStep
+	
+	
+	SetInetVarintMap(col InetVarintMapColumn, value map[net.IP]*big.Int) SetValueStep
+	
+	
+	SetInetBytesMap(col InetBytesMapColumn, value map[net.IP][]byte) SetValueStep
+	
+	
+	SetInetInetMap(col InetInetMapColumn, value map[net.IP]net.IP) SetValueStep
 	
 
 	
@@ -1708,6 +1947,11 @@ type SetValueStep interface {
 	AppendBytesSlice(col BytesSliceColumn, values ...[]byte) SetValueStep
 	PrependBytesSlice(col BytesSliceColumn, values ...[]byte) SetValueStep
 	RemoveBytesSlice(col BytesSliceColumn, values ...[]byte) SetValueStep
+	
+	SetInetSlice(col InetSliceColumn, value []net.IP) SetValueStep
+	AppendInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep
+	PrependInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep
+	RemoveInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep
 	
 }
 
@@ -1786,6 +2030,12 @@ func (c *Context) SetStringBytesMap(col StringBytesMapColumn, value map[string][
 }
 
 
+func (c *Context) SetStringInetMap(col StringInetMapColumn, value map[string]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
 
 func (c *Context) SetInt32StringMap(col Int32StringMapColumn, value map[int32]string) SetValueStep {
 	set(c, col, value)
@@ -1854,6 +2104,12 @@ func (c *Context) SetInt32VarintMap(col Int32VarintMapColumn, value map[int32]*b
 
 
 func (c *Context) SetInt32BytesMap(col Int32BytesMapColumn, value map[int32][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInt32InetMap(col Int32InetMapColumn, value map[int32]net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -1932,6 +2188,12 @@ func (c *Context) SetInt64BytesMap(col Int64BytesMapColumn, value map[int64][]by
 }
 
 
+func (c *Context) SetInt64InetMap(col Int64InetMapColumn, value map[int64]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
 
 func (c *Context) SetFloat32StringMap(col Float32StringMapColumn, value map[float32]string) SetValueStep {
 	set(c, col, value)
@@ -2000,6 +2262,12 @@ func (c *Context) SetFloat32VarintMap(col Float32VarintMapColumn, value map[floa
 
 
 func (c *Context) SetFloat32BytesMap(col Float32BytesMapColumn, value map[float32][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetFloat32InetMap(col Float32InetMapColumn, value map[float32]net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -2078,6 +2346,12 @@ func (c *Context) SetFloat64BytesMap(col Float64BytesMapColumn, value map[float6
 }
 
 
+func (c *Context) SetFloat64InetMap(col Float64InetMapColumn, value map[float64]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
 
 func (c *Context) SetTimestampStringMap(col TimestampStringMapColumn, value map[time.Time]string) SetValueStep {
 	set(c, col, value)
@@ -2146,6 +2420,12 @@ func (c *Context) SetTimestampVarintMap(col TimestampVarintMapColumn, value map[
 
 
 func (c *Context) SetTimestampBytesMap(col TimestampBytesMapColumn, value map[time.Time][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetTimestampInetMap(col TimestampInetMapColumn, value map[time.Time]net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -2224,6 +2504,12 @@ func (c *Context) SetTimeUUIDBytesMap(col TimeUUIDBytesMapColumn, value map[gocq
 }
 
 
+func (c *Context) SetTimeUUIDInetMap(col TimeUUIDInetMapColumn, value map[gocql.UUID]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
 
 func (c *Context) SetUUIDStringMap(col UUIDStringMapColumn, value map[gocql.UUID]string) SetValueStep {
 	set(c, col, value)
@@ -2292,6 +2578,12 @@ func (c *Context) SetUUIDVarintMap(col UUIDVarintMapColumn, value map[gocql.UUID
 
 
 func (c *Context) SetUUIDBytesMap(col UUIDBytesMapColumn, value map[gocql.UUID][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetUUIDInetMap(col UUIDInetMapColumn, value map[gocql.UUID]net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -2370,6 +2662,12 @@ func (c *Context) SetBooleanBytesMap(col BooleanBytesMapColumn, value map[bool][
 }
 
 
+func (c *Context) SetBooleanInetMap(col BooleanInetMapColumn, value map[bool]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
 
 func (c *Context) SetDecimalStringMap(col DecimalStringMapColumn, value map[*inf.Dec]string) SetValueStep {
 	set(c, col, value)
@@ -2438,6 +2736,12 @@ func (c *Context) SetDecimalVarintMap(col DecimalVarintMapColumn, value map[*inf
 
 
 func (c *Context) SetDecimalBytesMap(col DecimalBytesMapColumn, value map[*inf.Dec][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetDecimalInetMap(col DecimalInetMapColumn, value map[*inf.Dec]net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -2516,6 +2820,10 @@ func (c *Context) SetVarintBytesMap(col VarintBytesMapColumn, value map[*big.Int
 }
 
 
+func (c *Context) SetVarintInetMap(col VarintInetMapColumn, value map[*big.Int]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
 
 
 
@@ -2527,6 +2835,88 @@ func (c *Context) SetVarintBytesMap(col VarintBytesMapColumn, value map[*big.Int
 
 
 
+
+
+
+
+
+
+func (c *Context) SetInetStringMap(col InetStringMapColumn, value map[net.IP]string) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetInt32Map(col InetInt32MapColumn, value map[net.IP]int32) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetInt64Map(col InetInt64MapColumn, value map[net.IP]int64) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetFloat32Map(col InetFloat32MapColumn, value map[net.IP]float32) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetFloat64Map(col InetFloat64MapColumn, value map[net.IP]float64) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetTimestampMap(col InetTimestampMapColumn, value map[net.IP]time.Time) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetTimeUUIDMap(col InetTimeUUIDMapColumn, value map[net.IP]gocql.UUID) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetUUIDMap(col InetUUIDMapColumn, value map[net.IP]gocql.UUID) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetBooleanMap(col InetBooleanMapColumn, value map[net.IP]bool) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetDecimalMap(col InetDecimalMapColumn, value map[net.IP]*inf.Dec) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetVarintMap(col InetVarintMapColumn, value map[net.IP]*big.Int) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetBytesMap(col InetBytesMapColumn, value map[net.IP][]byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+
+func (c *Context) SetInetInetMap(col InetInetMapColumn, value map[net.IP]net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
 
 
 
@@ -2586,6 +2976,11 @@ func (c *Context) SetVarint(col VarintColumn, value *big.Int) SetValueStep {
 }
 
 func (c *Context) SetBytes(col BytesColumn, value []byte) SetValueStep {
+	set(c, col, value)
+	return c
+}
+
+func (c *Context) SetInet(col InetColumn, value net.IP) SetValueStep {
 	set(c, col, value)
 	return c
 }
@@ -2792,6 +3187,23 @@ func (c *Context) PrependBytesSlice(col BytesSliceColumn, values ...[]byte) SetV
 	return c
 }
 func (c *Context) RemoveBytesSlice(col BytesSliceColumn, values ...[]byte) SetValueStep {
+	removeList(c, col, values)
+	return c
+}
+
+func (c *Context) SetInetSlice(col InetSliceColumn, value []net.IP) SetValueStep {
+	set(c, col, value)
+	return c
+}
+func (c *Context) AppendInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep {
+	appendList(c, col, values)
+	return c
+}
+func (c *Context) PrependInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep {
+	prependList(c, col, values)
+	return c
+}
+func (c *Context) RemoveInetSlice(col InetSliceColumn, values ...net.IP) SetValueStep {
 	removeList(c, col, values)
 	return c
 }

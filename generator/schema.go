@@ -2,6 +2,7 @@ package generator
 
 import (
 	"errors"
+
 	"github.com/gocql/gocql"
 )
 
@@ -24,12 +25,14 @@ var literalTypes = map[gocql.Type]string{
 	gocql.TypeBlob:      "[]byte",
 	gocql.TypeDecimal:   "*inf.Dec",
 	gocql.TypeVarint:    "*big.Int",
+	gocql.TypeInet:      "net.IP",
 }
 
 var customImportPaths = map[string]string{
 	"gocql.UUID": "github.com/gocql/gocql",
 	"*inf.Dec":   "speter.net/go/exp/math/dec/inf",
 	"*big.Int":   "math/big",
+	"net.IP":     "net",
 }
 
 var columnTypes = map[gocql.Type]string{
@@ -47,4 +50,5 @@ var columnTypes = map[gocql.Type]string{
 	gocql.TypeBlob:      "cqlc.Bytes_Column",
 	gocql.TypeDecimal:   "cqlc.Decimal_Column",
 	gocql.TypeVarint:    "cqlc.Varint_Column",
+	gocql.TypeInet:      "cqlc.Inet_Column",
 }

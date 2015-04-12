@@ -5,10 +5,11 @@ package main
 import (
 	"bytes"
 	"fmt"
-	log "github.com/cihub/seelog"
 	"io/ioutil"
 	"os"
 	"text/template"
+
+	log "github.com/cihub/seelog"
 )
 
 var logConfig = `
@@ -50,6 +51,7 @@ var types = []TypeInfo{
 	TypeInfo{Prefix: "Decimal", Literal: "*inf.Dec"},
 	TypeInfo{Prefix: "Varint", Literal: "*big.Int"},
 	TypeInfo{Prefix: "Bytes", Literal: "[]byte"},
+	TypeInfo{Prefix: "Inet", Literal: "net.IP"},
 }
 
 func main() {

@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/gocql/gocql"
-	"github.com/relops/cqlc/cqlc"
-	"github.com/relops/cqlc/integration"
 	"log"
 	"math"
 	"math/big"
+	"net"
 	"os"
 	"reflect"
-	"speter.net/go/exp/math/dec/inf"
 	"time"
+
+	"github.com/gocql/gocql"
+	"github.com/relops/cqlc/cqlc"
+	"github.com/relops/cqlc/integration"
+	"speter.net/go/exp/math/dec/inf"
 )
 
 func main() {
@@ -41,6 +43,7 @@ func main() {
 		DoubleColumn:    math.MaxFloat64,
 		DecimalColumn:   inf.NewDec(1, 3),
 		VarintColumn:    biggie,
+		InetColumn:      net.IPv4(10, 10, 10, 10),
 		TimeuuidColumn:  gocql.TimeUUID(),
 		UuidColumn:      uuid,
 		MapColumn:       map[string]string{"baz": "quux"},
@@ -59,6 +62,7 @@ func main() {
 		BASIC.DOUBLE_COLUMN,
 		BASIC.DECIMAL_COLUMN,
 		BASIC.VARINT_COLUMN,
+		BASIC.INET_COLUMN,
 		BASIC.TIMESTAMP_COLUMN,
 		BASIC.TIMEUUID_COLUMN,
 		BASIC.UUID_COLUMN,
@@ -88,6 +92,7 @@ func main() {
 		BASIC.DOUBLE_COLUMN,
 		BASIC.DECIMAL_COLUMN,
 		BASIC.VARINT_COLUMN,
+		BASIC.INET_COLUMN,
 		BASIC.TIMESTAMP_COLUMN,
 		BASIC.TIMEUUID_COLUMN,
 		BASIC.UUID_COLUMN,
@@ -156,6 +161,7 @@ func create(ctx *cqlc.Context, s *gocql.Session, basic Basic) {
 		SetStringSlice(BASIC.SET_COLUMN, basic.SetColumn).
 		SetDecimal(BASIC.DECIMAL_COLUMN, basic.DecimalColumn).
 		SetVarint(BASIC.VARINT_COLUMN, basic.VarintColumn).
+		SetInet(BASIC.INET_COLUMN, basic.InetColumn).
 		Exec(s)
 
 	if err != nil {

@@ -12,6 +12,7 @@ CREATE TABLE basic
     double_column double,
     decimal_column decimal,
     varint_column varint,
+    inet_column inet,
     timeuuid_column timeuuid,
     uuid_column uuid,
     map_column map<text, text>,
@@ -100,7 +101,7 @@ ON simple_indexed_composite(y);
 
 CREATE TABLE original
 (
-    id ascii,    
+    id ascii,
     date timestamp,
     comment text,
     PRIMARY KEY (id, date)
