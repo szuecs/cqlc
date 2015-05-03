@@ -30,6 +30,8 @@ func main() {
 	biggie := new(big.Int)
 	biggie.SetString("830169365738487321165427203929228", 10)
 
+	ip := net.IPv4(10, 10, 10, 10)
+
 	basic := Basic{
 		Id:              "x",
 		Int32Column:     111,
@@ -43,7 +45,7 @@ func main() {
 		DoubleColumn:    math.MaxFloat64,
 		DecimalColumn:   inf.NewDec(1, 3),
 		VarintColumn:    biggie,
-		InetColumn:      net.IPv4(10, 10, 10, 10),
+		InetColumn:      &ip,
 		TimeuuidColumn:  gocql.TimeUUID(),
 		UuidColumn:      uuid,
 		MapColumn:       map[string]string{"baz": "quux"},

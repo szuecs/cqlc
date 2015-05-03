@@ -25,14 +25,14 @@ var literalTypes = map[gocql.Type]string{
 	gocql.TypeBlob:      "[]byte",
 	gocql.TypeDecimal:   "*inf.Dec",
 	gocql.TypeVarint:    "*big.Int",
-	gocql.TypeInet:      "net.IP",
+	gocql.TypeInet:      "*net.IP",
 }
 
 var customImportPaths = map[string]string{
 	"gocql.UUID": "github.com/gocql/gocql",
 	"*inf.Dec":   "speter.net/go/exp/math/dec/inf",
 	"*big.Int":   "math/big",
-	"net.IP":     "net",
+	"*net.IP":    "net",
 }
 
 var columnTypes = map[gocql.Type]string{
